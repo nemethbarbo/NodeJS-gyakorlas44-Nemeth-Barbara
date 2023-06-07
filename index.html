@@ -83,7 +83,7 @@
                         <button class="btn btn-danger deleteBtn" data-id="${user.id}"><i class="fas fa-trash"></i> Törlés</button>
                         </td>
                         `;
-                        tableBody.appendChild(row);     // tableBodyhoz hozzáfűzi a sorokat
+                        tableBody.appendChild(row);     
                     });
                 })
                 .catch(error=>{
@@ -91,7 +91,77 @@
                 });
         }
 
+         // eseménykezelés
+         formNewUser.addEventListener('submit', (event) => {
+            event.preventDefault(); 
 
+            const userNameInput = document.getElementById('userName');
+            const emailInput = document.getElementById('email');
+            const birthDateInput = document.getElementById('birthDate');
+            const statusInput = document.getElementById('status');
+
+            const userName = userNameInput.value;
+            const email = emailInput.value;
+            const birthDate = birthDateInput.value;
+            const status = statusInput.value;
+
+            axios.post('/users', { userName, email, birthDate, status })
+                .then(response => {
+                    const data = response.data;
+                    alert(data.message);
+                    userNameInput = '';    
+                    emailInput = '';
+                    birthDateInput = '';
+                    statusInput = '';
+                    loadUsers(); 
+                })
+                .catch(error => {
+                    console.error("Hiba történt: ", error);
+                });
+        });
+
+        // Felhasználó szerkesztése és törlése
+        tableBody.addEventListener('click', (event) => {    
+            if (event.target.classList.contains('editBtn')) {
+                const userId = event.target.getAttribute('data-id'); // begyűjti az id-t
+
+                const userNameCell = event.target.parentNode.parentNode.querySelector('td:nth-child(2)'); 
+                const emailCell = event.target.parentNode.parentNode.querySelector('td:nth-child(3)');  
+                const birthDateCell = event.target.parentNode.parentNode.querySelector('td:nth-child(4)'); 
+                const statusCell = event.target.parentNode.parentNode.querySelector('td:nth-child(5)');  
+
+                const newUserName = prompt('Adja meg az új felhasználói nevet: ', userNameCell.textContent);
+                const newEmail = prompt('Adja meg az új email címet: ', emailCell.textContent);
+                const newBirthDate = prompt('Adja meg az új születési dátumot: ', birthDateCell.textContent);
+                const newStatus = prompt('Adja meg az új állapotát: 1 - aktív, 0- inaktív', statusCell.textContent);
+
+                if (newUserName && newEmail && newBirthDate && newStatus) {
+                    axios.put(`/users/${userId}`,{'userName':newUserName, 'email':newEmail, 'birthDate':newBirthDate, 'status':newStatus })   
+                    .then(response => {
+                        const data = response.data; 
+                        alert(data.message);
+                        loadUsers();
+                    })
+                    .catch(error => {
+                        console.error('Hiba történt:', error);
+                    });
+                }
+            } else if (event.target.classList.contains('deleteBtn')) {
+                const userId = event.target.getAttribute('data-id');
+
+                if (confirm('Biztos törli a felhasználót?')) {
+                    axios.delete(`/users/${userId}`)
+                    .then(response => {
+                    const data = response.data;
+                    alert(data.message);
+                    loadUsers();
+                    })
+                    .catch(error => {
+                        console.error('Hiba történt:',error);
+                    });
+                 }
+            }
+        });
 
         loadUsers();
     </script>
