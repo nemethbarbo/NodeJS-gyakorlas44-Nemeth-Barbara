@@ -28,6 +28,10 @@
     "status": false
   },
   {
-    "id": 5
+    "id": 5,
+    "userName": "Jenny Doe",
+    "email": "jenny.doe@example.com",
+    "birthDate": "1995-03-25",
+    "status": true
   }
 ]

@@ -41,13 +41,58 @@
             <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Létrehozás</button>
             </form>
 
+            <h2>Felhasználók listája</h2>
+            <table id="usersTable" class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Név</th>
+                        <th>Email</th>
+                        <th>Születési idő</th>
+                        <th>Állapot</th>
+                    </tr>
+                </thead>
+            <tbody>
+                <!--axios segítségével tölti be a jsonből-->
+            </tbody>
+        </table>
 
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
+        const tableBody = document.querySelector('#usersTable tbody');
+        const formNewUser = document.getElementById('newUserForm');
+
+        // Felhasználók betöltése
+        function loadUsers(){
+            axios.get('/users')
+                .then(response=> {
+                    const users = response.data;
+                    tableBody.innerHTML = '';
+
+                    users.forEach(user => {
+                        const row = document.createElement('tr');   
+                        row.innerHTML = `           
+                        <td>${user.id}</td>
+                        <td>${user.userName}</td>
+                        <td>${user.email}</td>
+                        <td>${user.birthDate}</td>
+                        <td>${user.status}</td>
+                        <td>
+                        <button class="btn btn-warning editBtn" data-id="${user.id}"><i class="fas fa-edit"></i> Szerkesztés</button>
+                        <button class="btn btn-danger deleteBtn" data-id="${user.id}"><i class="fas fa-trash"></i> Törlés</button>
+                        </td>
+                        `;
+                        tableBody.appendChild(row);     // tableBodyhoz hozzáfűzi a sorokat
+                    });
+                })
+                .catch(error=>{
+                    console.error('Hiba történt: ', error);
+                });
+        }
 
 
 
-        saveUsersData();
+        loadUsers();
     </script>
 </body>
