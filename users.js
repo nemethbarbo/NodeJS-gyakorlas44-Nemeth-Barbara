@@ -56,7 +56,7 @@ app.put('/users/:userName', (req, res) => {
         user.email = email;
         user.birthDate = birthDate;
         user.status = userName;
-        saveBlogPosts(); 
+        saveUsersData(); 
         res.status(200).json({ message: 'Felhasználó adatai sikeresen frissítve.' });
     } else {
         res.status(404).json({ message: 'Nem található felhasználó az adott felhasználói névvel.' });
