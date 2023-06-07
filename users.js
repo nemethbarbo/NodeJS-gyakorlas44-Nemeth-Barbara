@@ -17,7 +17,7 @@ app.get('/users', (req,res) => {
 
 // új user létrehozása
 app.post('/users', (req, res) => {
-    const {userName,email,birthDate,status} = req.body || req.query;
+    const {userName, email, birthDate, status} = req.body || req.query;
 
 // új user objektum létrehozása
 const newUser = {id:Date.now(), userName, email, birthDate, status};
@@ -28,12 +28,12 @@ res.status(200).json({message:'Felhasználó sikeresen hozzáadva :)'});
 });
 
 // user törlése :id path variable - útvonal változó
-app.delete('/users/:userName', (req, res) => {
-    const userUserName = req.params.userName;
+app.delete('/users/:id', (req, res) => {
+    const userId = req.params.id;
 
     // user törlése felhasználói név alapján
     const initialLength = usersData.length;
-    usersData = usersData.filter(user => user.userName !== String(userUserName));
+    usersData = usersData.filter(user => user.id !== Number(userId));
 
     if (usersData.length !== initialLength) {
         saveUsersData(); 
@@ -44,12 +44,12 @@ app.delete('/users/:userName', (req, res) => {
 } )
 
 // Felhasználó szerkesztése
-app.put('/users/:userName', (req, res) => {
-    const userUserName = req.params.userName;
+app.put('/users/:id', (req, res) => {
+    const userId = req.params.id;
     const { userName, email, birthDate, status } = req.body || req.query;
     
     // Megkeressük a usert a felhasználói név alapján
-    const user = usersData.find(user => user.userName === String(userUserName));
+    const user = usersData.find(user => user.id === Number(userId));
     
     if (user) {
         user.userName = userName;

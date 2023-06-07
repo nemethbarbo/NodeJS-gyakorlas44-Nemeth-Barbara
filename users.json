@@ -33,12 +33,5 @@
     "email": "jenny.doe@example.com",
     "birthDate": "1995-03-25",
     "status": true
-  },
-  {
-    "id": 1686132917750,
-    "userName": "Teszt Elek",
-    "email": "teszt.elek@example.com",
-    "birthDate": "1999-06-17",
-    "status": "true"
   }
 ]

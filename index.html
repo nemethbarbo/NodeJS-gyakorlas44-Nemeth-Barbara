@@ -15,11 +15,11 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="mb-5 text-center">Felhasználók</h1>
+        <h1 class="mb-5 text-center">Felhasználók CRUD</h1>
         <form id="newUserForm" class="mb-4 w-50">
             <h2>Új felhasználó létrehozása</h2>
             <div class="mb-3">
-                <label for="userName" class="form-label">Név</label>
+                <label for="userName" class="form-label">Felhasználónév</label>
                 <input type="text" class="form-control" name="userName" id="userName" placeholder="Kérem adja meg a felhasználó nevét!!!" required>
             </div>
             <div class="mb-3">
@@ -31,12 +31,8 @@
                 <input type="date" class="form-control" name="birthDate" id="birthDate" required>
             </div>
             <div class="mb-3">
-                <label for="status" class="form-label">Állapot</label>
-                <br>
-                <input type="checkbox" name="status" id="status" value="true" >
-                <label for="status">Aktív</label>
-                <input type="checkbox" name="status" id="status" value="false" >
-                <label for="status">Inaktív</label>
+                <label for="status" class="form-check-label">Státusz</label>
+                <input type="checkbox" class="form-check-input" name="status" id="status">
             </div>
             <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Létrehozás</button>
             </form>
@@ -46,18 +42,19 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Név</th>
+                        <th>Felhasználónév</th>
                         <th>Email</th>
                         <th>Születési idő</th>
-                        <th>Állapot</th>
+                        <th>Státusz</th>
+                        <th>Műveletek</th>
                     </tr>
                 </thead>
             <tbody>
                 <!--axios segítségével tölti be a jsonből-->
             </tbody>
         </table>
-
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         const tableBody = document.querySelector('#usersTable tbody');
@@ -73,15 +70,15 @@
                     users.forEach(user => {
                         const row = document.createElement('tr');   
                         row.innerHTML = `           
-                        <td>${user.id}</td>
-                        <td>${user.userName}</td>
-                        <td>${user.email}</td>
-                        <td>${user.birthDate}</td>
-                        <td>${user.status}</td>
-                        <td>
-                        <button class="btn btn-warning editBtn" data-id="${user.id}"><i class="fas fa-edit"></i> Szerkesztés</button>
-                        <button class="btn btn-danger deleteBtn" data-id="${user.id}"><i class="fas fa-trash"></i> Törlés</button>
-                        </td>
+                            <td>${user.id}</td>
+                            <td>${user.userName}</td>
+                            <td>${user.email}</td>
+                            <td>${user.birthDate}</td>
+                            <td>${user.status ? 'Aktív' : 'Inaktív'}</td>
+                            <td>
+                                <button class="btn btn-warning editBtn" data-id="${user.id}"><i class="fas fa-edit"></i> Szerkesztés</button>
+                                <button class="btn btn-danger deleteBtn" data-id="${user.id}"><i class="fas fa-trash"></i> Törlés</button>
+                            </td>
                         `;
                         tableBody.appendChild(row);     
                     });
@@ -103,16 +100,16 @@
             const userName = userNameInput.value;
             const email = emailInput.value;
             const birthDate = birthDateInput.value;
-            const status = statusInput.value;
+            const status = statusInput.checked;
 
             axios.post('/users', { userName, email, birthDate, status })
                 .then(response => {
                     const data = response.data;
                     alert(data.message);
-                    userNameInput = '';    
-                    emailInput = '';
-                    birthDateInput = '';
-                    statusInput = '';
+                    userNameInput.value = '';    
+                    emailInput.value = '';
+                    birthDateInput.value = '';
+                    statusInput.checked = false;
                     loadUsers(); 
                 })
                 .catch(error => {
@@ -130,10 +127,12 @@
                 const birthDateCell = event.target.parentNode.parentNode.querySelector('td:nth-child(4)'); 
                 const statusCell = event.target.parentNode.parentNode.querySelector('td:nth-child(5)');  
 
-                const newUserName = prompt('Adja meg az új felhasználói nevet: ', userNameCell.textContent);
-                const newEmail = prompt('Adja meg az új email címet: ', emailCell.textContent);
-                const newBirthDate = prompt('Adja meg az új születési dátumot: ', birthDateCell.textContent);
-                const newStatus = prompt('Adja meg az új állapotát: 1 - aktív, 0- inaktív', statusCell.textContent);
+                const newUserName = prompt('Kérem adja meg az új felhasználói nevet: ', userNameCell.textContent);
+                const newEmail = prompt('Kérem adja meg az új email címet: ', emailCell.textContent);
+                const newBirthDate = prompt('Kérem adja meg az új születési dátumot: ', birthDateCell.textContent);
+                const statusText = statusCell.textContent == 'Aktív' ? '1' : '0';
+                const newStatusBoolean = prompt('Kérem adja meg az új állapotát: 1 - aktív, 0 - inaktív):', statusText);
+                const newStatus = newStatusBoolean =='1' ? true : false;
 
                 if (newUserName && newEmail && newBirthDate && newStatus) {
                     axios.put(`/users/${userId}`,{'userName':newUserName, 'email':newEmail, 'birthDate':newBirthDate, 'status':newStatus })   
@@ -146,23 +145,24 @@
                         console.error('Hiba történt:', error);
                     });
                 }
-            } else if (event.target.classList.contains('deleteBtn')) {
-                const userId = event.target.getAttribute('data-id');
+                } else if (event.target.classList.contains('deleteBtn')) {
+                    const userId = event.target.getAttribute('data-id');
 
-                if (confirm('Biztos törli a felhasználót?')) {
-                    axios.delete(`/users/${userId}`)
-                    .then(response => {
-                    const data = response.data;
-                    alert(data.message);
-                    loadUsers();
-                    })
-                    .catch(error => {
-                        console.error('Hiba történt:',error);
-                    });
-                 }
-            }
+                    if (confirm('Biztosan törli a felhasználót?')) {
+                        axios.delete(`/users/${userId}`)
+                        .then(response => {
+                            const data = response.data;
+                            alert(data.message);
+                            loadUsers();
+                        })
+                        .catch(error => {
+                            console.error('Hiba történt:',error);
+                        });
+                    }
+                }
         });
 
         loadUsers();
     </script>
 </body>
+</html>
