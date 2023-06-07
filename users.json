@@ -35,16 +35,6 @@
     "status": true
   },
   {
-    "id": 1686125650564
-  },
-  {
-    "id": 1686127162484,
-    "userName": "Teszt Elek",
-    "email": "teszt.elek@example.com",
-    "birthDate": "1996-03-15",
-    "status": true
-  },
-  {
     "id": 1686127207713,
     "userName": "Teszt Elek",
     "email": "teszt.elek@example.com",
