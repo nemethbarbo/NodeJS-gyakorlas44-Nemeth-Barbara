@@ -28,17 +28,6 @@
     "status": false
   },
   {
-    "id": 5,
-    "userName": "Jenny Doe",
-    "email": "jenny.doe@example.com",
-    "birthDate": "1995-03-25",
-    "status": true
-  },
-  {
-    "id": 1686127207713,
-    "userName": "Teszt Elek",
-    "email": "teszt.elek@example.com",
-    "birthDate": "1996-03-15",
-    "status": true
+    "id": 5
   }
 ]

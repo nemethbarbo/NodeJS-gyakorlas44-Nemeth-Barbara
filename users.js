@@ -55,7 +55,7 @@ app.put('/users/:userName', (req, res) => {
         user.userName = userName;
         user.email = email;
         user.birthDate = birthDate;
-        user.status = userName;
+        user.status = status;
         saveUsersData(); 
         res.status(200).json({ message: 'Felhasználó adatai sikeresen frissítve.' });
     } else {

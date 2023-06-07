@@ -16,8 +16,38 @@
 <body>
     <div class="container">
         <h1 class="mb-5 text-center">Felhasználók</h1>
+        <form id="newUserForm" class="mb-4 w-50">
+            <h2>Új felhasználó létrehozása</h2>
+            <div class="mb-3">
+                <label for="userName" class="form-label">Név</label>
+                <input type="text" class="form-control" name="userName" id="userName" placeholder="Kérem adja meg a felhasználó nevét!!!" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="text" class="form-control" name="email" id="email" placeholder="Kérem adja meg a felhasználó email címét!" required>
+            </div>
+            <div class="mb-3">
+                <label for="birthDate" class="form-label">Születési idő</label>
+                <input type="date" class="form-control" name="birthDate" id="birthDate" required>
+            </div>
+            <div class="mb-3">
+                <label for="status" class="form-label">Állapot</label>
+                <br>
+                <input type="checkbox" name="status" id="status" value="true" >
+                <label for="status">Aktív</label>
+                <input type="checkbox" name="status" id="status" value="false" >
+                <label for="status">Inaktív</label>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Létrehozás</button>
+            </form>
 
 
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+
+
+
+        saveUsersData();
+    </script>
 </body>
