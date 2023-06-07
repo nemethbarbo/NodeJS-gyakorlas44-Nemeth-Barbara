@@ -1,0 +1,54 @@
+[
+  {
+    "id": 1,
+    "userName": "John Doe",
+    "email": "john.doe@example.com",
+    "birthDate": "1990-01-01",
+    "status": true
+  },
+  {
+    "id": 2,
+    "userName": "Jane Doe",
+    "email": "jane.doe@example.com",
+    "birthDate": "1992-05-10",
+    "status": false
+  },
+  {
+    "id": 3,
+    "userName": "Jonnie Doe",
+    "email": "jonnie.doe@example.com",
+    "birthDate": "1985-12-15",
+    "status": true
+  },
+  {
+    "id": 4,
+    "userName": "Jimmy Doe",
+    "email": "jimmy.doe@example.com",
+    "birthDate": "1988-08-20",
+    "status": false
+  },
+  {
+    "id": 5,
+    "userName": "Jenny Doe",
+    "email": "jenny.doe@example.com",
+    "birthDate": "1995-03-25",
+    "status": true
+  },
+  {
+    "id": 1686125650564
+  },
+  {
+    "id": 1686127162484,
+    "userName": "Teszt Elek",
+    "email": "teszt.elek@example.com",
+    "birthDate": "1996-03-15",
+    "status": true
+  },
+  {
+    "id": 1686127207713,
+    "userName": "Teszt Elek",
+    "email": "teszt.elek@example.com",
+    "birthDate": "1996-03-15",
+    "status": true
+  }
+]
